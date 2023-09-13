@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import parkingcontrol.parkingcontrol.enums.UserRole;
+import parkingcontrol.parkingcontrol.enums.UserRoleEnum;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -33,9 +33,9 @@ public class UserModel implements Serializable, UserDetails {
     private String password;
 
     @Column(nullable = false, length = 100)
-    private UserRole role;
+    private UserRoleEnum role;
 
-    public UserModel(String email, String name,String password, UserRole role) {
+    public UserModel(String email, String name,String password, UserRoleEnum role) {
         this.email = email;
         this.name = name;
         this.password = password;
@@ -66,24 +66,25 @@ public class UserModel implements Serializable, UserDetails {
         this.name = name;
     }
 
-    public UserRole getRole() {
+    public UserRoleEnum getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(UserRoleEnum role) {
         this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN)
+        if(this.role == UserRoleEnum.ADMIN)
             return List.of(
                 new SimpleGrantedAuthority("ROLE_ADMIN"),
                 new SimpleGrantedAuthority("ROLE_USER")
             );
-        return List.of(
-            new SimpleGrantedAuthority("ROLE_USER")
-        );
+        else
+            return List.of(
+                new SimpleGrantedAuthority("ROLE_USER")
+            );
     }
 
     public String getPassword() {

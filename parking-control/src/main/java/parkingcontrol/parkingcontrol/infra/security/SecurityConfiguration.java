@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                         authorize -> authorize
                                 .requestMatchers(HttpMethod.POST, "/parking-control/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/parking-control/auth/register").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/parking-control/restrict").hasRole("ADMIN")
+                                .requestMatchers("/parking-control/restrict/*").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .build();
